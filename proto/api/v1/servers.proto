@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/protobuf/timestamp.proto";
+
+service Servers {
+  // Servers generate a unique UUID, and request a new slot. Bazaar then
+  // generates an API key, and returns both to the server. The server
+  // is responsible for saving both of these for further requests
+  rpc CreateServer(CreateServerRequest) returns (CreateServerResponse) {}
+  // Get the currently authenticated server
+  rpc GetServer(GetServerRequest) returns (GetServerResponse) {}
+  // Ping endpoint. If a server hasn't pinged for X amount of times,
+  // we disable its trades until it comes back online
+  rpc Ping(PingRequest) returns (PingResponse) {}
+}
+
+message CreateServerRequest {
+  string server_id = 1;
+}
+
+message CreateServerResponse {
+  string api_key = 1;
+}
+
+message GetServerRequest {
+
+}
+
+message GetServerResponse {
+  string id = 1;
+  string ip_address = 2;
+}
+
+message PingRequest {}
+message PingResponse {}

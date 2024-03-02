@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/protobuf/timestamp.proto";
+
+service Trades {
+  // Create a new trade (either buy, or sell), registered to the server that requested it
+  rpc CreateTrade(CreateTradeRequest) returns (CreateTradeResponse) {}
+  // Stream events for an open trade
+  rpc WatchTrade(WatchTradeRequest) returns (stream WatchTradeResponse) {}
+  // Cancel an open trade
+  rpc CancelTrade(CancelTradeRequest) returns (CreateTradeResponse) {}
+  // Fulfill an open trade. This will trigger both servers to
+  // At the moment, this is only buying with coins, or selling for coins
+  rpc FulfillTrade(FulfillTradeRequest) returns (FulfillTradeResponse) {}
+  rpc GetOpenTrades(GetOpenTradesRequest) returns (GetOpenTradesResponse) {}
+}
+
+message Trade {
+  string status = 1;
+  string type = 2;
+  string initiating_server = 3;
+  string item = 4;
+  int32 quantity = 5;
+  int32 price = 6;
+  int32 fulfilled = 7;
+}
+
+message CreateTradeRequest {}
+message CreateTradeResponse {}
+message WatchTradeRequest {}
+message WatchTradeResponse {}
+message CancelTradeRequest {}
+message CancelTradeResponse {}
+message FulfillTradeRequest {}
+message FulfillTradeResponse {}
+message GetOpenTradesRequest {
+  string initiating_server_id = 1;
+  string status = 2;
+}
+message GetOpenTradesResponse {
+  repeated Trade trades = 1;
+}

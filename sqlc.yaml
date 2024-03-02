@@ -1,0 +1,19 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "db/servers/queries.sql"
+    schema: "db/servers/schema.sql"
+    gen:
+      go:
+        package: "server"
+        out: "internal/server"
+        sql_package: "pgx/v5"
+
+  - engine: "postgresql"
+    queries: "db/trades/queries.sql"
+    schema: "db/trades/schema.sql"
+    gen:
+      go:
+        package: "trade"
+        out: "internal/trade"
+        sql_package: "pgx/v5"
